@@ -65,6 +65,8 @@ func check_for_grab():
 			return
 
 func grab_wall():
+	%whistle.pitch_scale = randf_range(3, 5)
+	%whistle.play()
 	sprite.modulate = Color.RED
 	freeze = true
 	freeze_mode = RigidBody2D.FREEZE_MODE_STATIC
