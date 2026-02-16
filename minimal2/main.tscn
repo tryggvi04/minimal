@@ -1,17 +1,20 @@
 [gd_scene format=3 uid="uid://8x1i62snoc3j"]
 
-[ext_resource type="Script" uid="uid://bnoruqs5feg2r" path="res://camera_2d.gd" id="1_1bvp3"]
 [ext_resource type="Texture2D" uid="uid://coput2vqfo7k1" path="res://Trapezoid.png" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://bjvxgiepjhp4d" path="res://player.gd" id="2_0xm2m"]
 [ext_resource type="Script" uid="uid://buucwx6g6ncm1" path="res://arm.gd" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://bhexx6mj1xv3q" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_2d.gd" id="5_7mycd"]
 [ext_resource type="AudioStream" uid="uid://d0lahibws5act" path="res://Whistle.wav" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="6_272bh"]
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="7_272bh"]
+
+[sub_resource type="Resource" id="Resource_5vw27"]
+script = ExtResource("6_272bh")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_272bh"]
+size = Vector2(229, 636)
 
 [node name="Node2D" type="Node2D" unique_id=2975532]
-
-[node name="Camera2D" type="Camera2D" parent="." unique_id=1906622007 node_paths=PackedStringArray("player")]
-position = Vector2(443, -251)
-script = ExtResource("1_1bvp3")
-player = NodePath("../player")
 
 [node name="mountain" type="StaticBody2D" parent="." unique_id=1211146469 groups=["wakk"]]
 collision_layer = 3
@@ -47,12 +50,13 @@ position = Vector2(6423, 92)
 scale = Vector2(27.52539, 0.17871094)
 texture = ExtResource("1_ig7tw")
 
-[node name="player" type="RigidBody2D" parent="." unique_id=966669992]
+[node name="player" type="RigidBody2D" parent="." unique_id=966669992 node_paths=PackedStringArray("phan_cam") groups=["player"]]
 gravity_scale = 5.0
 contact_monitor = true
 max_contacts_reported = 3
 linear_damp = 2.0
 script = ExtResource("2_0xm2m")
+phan_cam = NodePath("../PhantomCamera2D")
 
 [node name="Sprite2D" type="Sprite2D" parent="player" unique_id=1195190989]
 modulate = Color(0.47015, 0.3979242, 0, 1)
@@ -104,6 +108,16 @@ length = 15.0
 stiffness = 40.0
 damping = 0.3
 
+[node name="Label" type="Label" parent="left_arm" unique_id=1184708032]
+offset_left = -19.0
+offset_top = -12.0
+offset_right = 21.0
+offset_bottom = 11.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+text = "L"
+horizontal_alignment = 1
+
 [node name="right_arm" type="RigidBody2D" parent="." unique_id=1550602244 node_paths=PackedStringArray("player")]
 unique_name_in_owner = true
 position = Vector2(133, 31)
@@ -135,6 +149,16 @@ node_b = NodePath("..")
 length = 15.0
 stiffness = 40.0
 damping = 0.3
+
+[node name="Label" type="Label" parent="right_arm" unique_id=1336418232]
+offset_left = -19.0
+offset_top = -12.0
+offset_right = 21.0
+offset_bottom = 11.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 10
+text = "R"
+horizontal_alignment = 1
 
 [node name="bigmountain" type="Node2D" parent="." unique_id=546718515]
 position = Vector2(3436, -428)
@@ -239,18 +263,242 @@ texture = ExtResource("1_ig7tw")
 position = Vector2(780, -208)
 polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
 
-[node name="mountain8" type="StaticBody2D" parent="bigmountain" unique_id=692361531 groups=["wakk"]]
-position = Vector2(546, -2990)
+[node name="mountain16" type="StaticBody2D" parent="bigmountain" unique_id=1990817864 groups=["wakk"]]
+position = Vector2(5426, -3202)
+rotation = 2.3439772
 collision_layer = 3
 collision_mask = 3
 
-[node name="Sprite2D" type="Sprite2D" parent="bigmountain/mountain8" unique_id=471547883]
+[node name="Sprite2D" type="Sprite2D" parent="bigmountain/mountain16" unique_id=1256062559]
 position = Vector2(780, -208)
 texture = ExtResource("1_ig7tw")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/mountain8" unique_id=444797866]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/mountain16" unique_id=1026110573]
 position = Vector2(780, -208)
 polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
+
+[node name="mountain17" type="StaticBody2D" parent="bigmountain" unique_id=1579695108 groups=["wakk"]]
+position = Vector2(6487, -2988)
+rotation = 3.1415927
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="bigmountain/mountain17" unique_id=447392593]
+position = Vector2(780, -208)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/mountain17" unique_id=528638391]
+position = Vector2(780, -208)
+polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
+
+[node name="mountain18" type="StaticBody2D" parent="bigmountain" unique_id=1695161055]
+position = Vector2(-276, -2613.9998)
+rotation = -0.54803336
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="bigmountain/mountain18" unique_id=956494585]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(780, -208)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/mountain18" unique_id=184988480]
+position = Vector2(780, -208)
+polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
+
+[node name="mountain19" type="StaticBody2D" parent="bigmountain" unique_id=261802700]
+position = Vector2(4803, -2644)
+rotation = -3.9880774
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="bigmountain/mountain19" unique_id=673840296]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(780, -208)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/mountain19" unique_id=1114401143]
+position = Vector2(780, -208)
+polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
+
+[node name="Node2D" type="Node2D" parent="bigmountain" unique_id=1471641569]
+
+[node name="mountain9" type="StaticBody2D" parent="bigmountain/Node2D" unique_id=1300026176 groups=["wakk"]]
+position = Vector2(1151, -2781)
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="bigmountain/Node2D/mountain9" unique_id=259007086]
+position = Vector2(780, -208)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/Node2D/mountain9" unique_id=796769827]
+position = Vector2(780, -208)
+polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
+
+[node name="mountain10" type="StaticBody2D" parent="bigmountain/Node2D" unique_id=1872912774 groups=["wakk"]]
+position = Vector2(2151, -2781)
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="bigmountain/Node2D/mountain10" unique_id=296398390]
+position = Vector2(780, -208)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/Node2D/mountain10" unique_id=453902190]
+position = Vector2(780, -208)
+polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
+
+[node name="mountain11" type="StaticBody2D" parent="bigmountain/Node2D" unique_id=1823859619 groups=["wakk"]]
+position = Vector2(3140, -2781)
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="bigmountain/Node2D/mountain11" unique_id=740157346]
+position = Vector2(780, -208)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/Node2D/mountain11" unique_id=887603297]
+position = Vector2(780, -208)
+polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
+
+[node name="mountain12" type="StaticBody2D" parent="bigmountain/Node2D" unique_id=2091896492 groups=["wakk"]]
+position = Vector2(1995, -1576)
+rotation = -3.1415925
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="bigmountain/Node2D/mountain12" unique_id=527434352]
+position = Vector2(780, -208)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/Node2D/mountain12" unique_id=1109420559]
+position = Vector2(780, -208)
+polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
+
+[node name="mountain13" type="StaticBody2D" parent="bigmountain/Node2D" unique_id=1177116622 groups=["wakk"]]
+position = Vector2(2985, -1576)
+rotation = -3.1415925
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="bigmountain/Node2D/mountain13" unique_id=1269460083]
+position = Vector2(780, -208)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/Node2D/mountain13" unique_id=409166118]
+position = Vector2(780, -208)
+polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
+
+[node name="mountain14" type="StaticBody2D" parent="bigmountain/Node2D" unique_id=510717286 groups=["wakk"]]
+position = Vector2(3985, -1576)
+rotation = -3.1415925
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="bigmountain/Node2D/mountain14" unique_id=41132656]
+position = Vector2(780, -208)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/Node2D/mountain14" unique_id=1383321382]
+position = Vector2(780, -208)
+polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
+
+[node name="mountain15" type="StaticBody2D" parent="bigmountain/Node2D" unique_id=1126514865 groups=["wakk"]]
+position = Vector2(4974, -1576)
+rotation = -3.1415925
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="bigmountain/Node2D/mountain15" unique_id=1258971854]
+position = Vector2(780, -208)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/Node2D/mountain15" unique_id=528393950]
+position = Vector2(780, -208)
+polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
+
+[node name="mountain8" type="StaticBody2D" parent="bigmountain/Node2D" unique_id=692361531 groups=["wakk"]]
+position = Vector2(161, -2781)
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="bigmountain/Node2D/mountain8" unique_id=471547883]
+position = Vector2(780, -208)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/Node2D/mountain8" unique_id=444797866]
+position = Vector2(780, -208)
+polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
+
+[node name="Node2D2" type="Node2D" parent="bigmountain" unique_id=146742324]
+position = Vector2(3820, -7423)
+rotation = 1.5707964
+
+[node name="mountain9" type="StaticBody2D" parent="bigmountain/Node2D2" unique_id=173229688 groups=["wakk"]]
+position = Vector2(1771, -2781)
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="bigmountain/Node2D2/mountain9" unique_id=1417581538]
+position = Vector2(780, -208)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/Node2D2/mountain9" unique_id=1820275422]
+position = Vector2(780, -208)
+polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
+
+[node name="mountain11" type="StaticBody2D" parent="bigmountain/Node2D2" unique_id=1203851918 groups=["wakk"]]
+position = Vector2(3140, -2781)
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="bigmountain/Node2D2/mountain11" unique_id=1362822509]
+position = Vector2(780, -208)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/Node2D2/mountain11" unique_id=1721816591]
+position = Vector2(780, -208)
+polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
+
+[node name="mountain12" type="StaticBody2D" parent="bigmountain/Node2D2" unique_id=541738698 groups=["wakk"]]
+position = Vector2(2615, -2425)
+rotation = -3.1415925
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="bigmountain/Node2D2/mountain12" unique_id=1619935937]
+position = Vector2(780, -208)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/Node2D2/mountain12" unique_id=793925292]
+position = Vector2(780, -208)
+polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
+
+[node name="mountain14" type="StaticBody2D" parent="bigmountain/Node2D2" unique_id=673049529 groups=["wakk"]]
+position = Vector2(3985, -2425)
+rotation = -3.1415925
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="bigmountain/Node2D2/mountain14" unique_id=300908012]
+position = Vector2(780, -208)
+texture = ExtResource("1_ig7tw")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="bigmountain/Node2D2/mountain14" unique_id=1146927761]
+position = Vector2(780, -208)
+polygon = PackedVector2Array(259, -260, -259, -260, -259, -257.6, -512, 247.59998, -512, 260, 512, 260, 512, 245.5, 259, -257.6)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=15720965]
+physics_interpolation_mode = 1
+top_level = true
+process_callback = 0
+editor_draw_limits = true
+
+[node name="PhantomCameraHost" type="Node" parent="Camera2D" unique_id=445136306]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("7_272bh")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1295729253]
 layer = -1
@@ -262,3 +510,20 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.2667014, 0.48485845, 1, 1)
+
+[node name="PhantomCamera2D" type="Node2D" parent="." unique_id=1655800292 node_paths=PackedStringArray("follow_target")]
+top_level = true
+script = ExtResource("5_7mycd")
+follow_mode = 2
+follow_target = NodePath("../player")
+tween_resource = SubResource("Resource_5vw27")
+draw_limits = true
+metadata/_custom_type_script = "uid://bhexx6mj1xv3q"
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1723380285]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=438532146]
+position = Vector2(2216.5, -215)
+shape = SubResource("RectangleShape2D_272bh")
+
+[connection signal="body_entered" from="Area2D" to="player" method="_on_area_2d_body_entered"]

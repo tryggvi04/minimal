@@ -2,8 +2,8 @@ extends RigidBody2D
 
 @export var right_arm := true
 @export var pull_force := 2500.0
-@export var grab_delay := 0.00001
-@export var freeze_time := 2.0
+@export var grab_delay := 0.15
+@export var freeze_time := 3.0
 
 @onready var sprite := $Sprite2D
 @onready var joint := $DampedSpringJoint2D
@@ -20,8 +20,16 @@ func _ready():
 	linear_damp = 6.0
 	angular_damp = 10.0
 
-func _physics_process(delta):
-
+func _process(delta):
+	if freeze:
+		sprite.modulate.a = 1 - lerp(0, 1, (frozen_timer/freeze_time))
+		$Label.modulate.a = 1 - lerp(0, 1, (frozen_timer/freeze_time))
+	if right_arm and Input.is_action_just_pressed("right") and freeze:
+		release_arm()
+		return	
+	if !right_arm and Input.is_action_just_pressed("left") and freeze:
+		release_arm()
+		return
 	if freeze:
 		frozen_timer += delta
 		if frozen_timer >= freeze_time:
@@ -46,7 +54,8 @@ func _physics_process(delta):
 
 	if can_grab:
 		check_for_grab()
-
+	
+	
 func pull_if_stretched():
 	var dir = Vector2.ZERO
 	if right_arm:
@@ -81,10 +90,12 @@ func grab_wall():
 		%right_arm.release_arm()
 
 func release_arm():
+	$Label.modulate.a = 1
 	if right_arm:
 		player.right_grab = false
 	else:
 		player.left_grab = false
+	
 	sprite.modulate = Color.GREEN
 	freeze = false
 	freeze_mode = RigidBody2D.FREEZE_MODE_KINEMATIC
